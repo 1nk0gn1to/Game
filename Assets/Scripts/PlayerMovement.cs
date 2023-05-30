@@ -1,16 +1,10 @@
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private int moveSpeed = 1;
+    private bool isWalking;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         var direction = new Vector3(0, 0, 0);
@@ -28,8 +22,14 @@ public class Movement : MonoBehaviour
 
         direction = direction.normalized;
 
+        isWalking = direction != Vector3.zero;
         var rotateSpeed = 10f;
         transform.position += moveSpeed * Time.deltaTime * direction;
         transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed);
+    }
+
+    public bool IsWalking()
+    {
+        return isWalking;
     }
 }
