@@ -3,29 +3,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private int moveSpeed = 1;
+    [SerializeField] private InputManager inputManager = null;
     private bool isWalking;
 
     void Update()
     {
-        var direction = new Vector3(0, 0, 0);
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            direction.z += 1;
-        }
-        if (Input.GetKey(KeyCode.S))
-            direction.z -= 1;
-        if (Input.GetKey(KeyCode.A))
-            direction.x -= 1;
-        if (Input.GetKey(KeyCode.D))
-            direction.x += 1;
-
-        direction = direction.normalized;
-
-        isWalking = direction != Vector3.zero;
+        Vector3 vector = inputManager.GetMovementVector();
+        isWalking = vector != Vector3.zero;
         var rotateSpeed = 10f;
-        transform.position += moveSpeed * Time.deltaTime * direction;
-        transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed);
+        transform.position += moveSpeed * Time.deltaTime * vector;
+        transform.forward = Vector3.Slerp(transform.forward, vector, Time.deltaTime * rotateSpeed);
     }
 
     public bool IsWalking()
