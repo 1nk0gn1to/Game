@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -12,9 +10,9 @@ public class InputManager : MonoBehaviour
         playerInputActions.Player.Enable();
     }
 
-    public Vector3 GetMovementVector()
+    public Vector2 GetMovementVector()
     {
-        var direction = playerInputActions.Player.Move.ReadValue<Vector3>();
+        var direction = playerInputActions.Player.Move.ReadValue<Vector2>();
 
         direction = direction.normalized;
 
