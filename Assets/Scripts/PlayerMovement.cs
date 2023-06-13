@@ -5,14 +5,43 @@ public class PlayerMovement : MonoBehaviour
     private const float ROTATE_SPEED = 10f;
     [SerializeField] private int moveSpeed = 1;
     [SerializeField] private InputManager inputManager = default;
+    [SerializeField] private LayerMask counterLayerMask = default;
     private bool isWalking;
+    private Vector3 lastInteractDirection;
 
     void Update()
+    {
+        HandleMovement();
+    }
+
+    private void HandleInteraction()
     {
         Vector2 vector = inputManager.GetMovementVector();
 
         Vector3 moveDir = new Vector3(vector.x, 0f, vector.y);
-        
+
+        float maxDistance = 2f;
+
+        if (moveDir != Vector3.zero)
+        {
+            lastInteractDirection = moveDir;
+        }
+
+        if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, maxDistance, counterLayerMask))
+        {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            {
+                clearCounter.Interact();
+            }
+        }
+    }
+
+    private void HandleMovement()
+    {
+        Vector2 vector = inputManager.GetMovementVector();
+
+        Vector3 moveDir = new Vector3(vector.x, 0f, vector.y);
+
         isWalking = moveDir != Vector3.zero;
 
         float moveDistance = moveSpeed * Time.deltaTime;
