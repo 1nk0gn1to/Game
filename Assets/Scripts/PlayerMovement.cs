@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,12 +10,12 @@ public class PlayerMovement : MonoBehaviour
     private bool isWalking;
     private Vector3 lastInteractDirection;
 
-    void Update()
+    void Start()
     {
-        HandleMovement();
+        inputManager.OnInteractAction += InputManager_OnInteractionAction;
     }
 
-    private void HandleInteraction()
+    private void InputManager_OnInteractionAction(object sender, EventArgs e)
     {
         Vector2 vector = inputManager.GetMovementVector();
 
@@ -34,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
                 clearCounter.Interact();
             }
         }
+    }
+
+    void Update()
+    {
+        HandleMovement();
     }
 
     private void HandleMovement()
