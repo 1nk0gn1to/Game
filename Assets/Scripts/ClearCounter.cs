@@ -1,9 +1,10 @@
 using UnityEngine;
+using Entities;
 
-public class ClearCounter : MonoBehaviour
+public class ClearCounter : Counter
 {
-    public void Interact()
+    public override void Interact()
     {
-        Debug.Log("Interact");
+        Debug.Log("Clear Interact");
     }
 }

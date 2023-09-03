@@ -1,4 +1,6 @@
+using Entities;
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isWalking;
     private Vector3 lastInteractDirection;
 
+    public Action Select { get; set; }
+
     void Start()
     {
         inputManager.OnInteractAction += InputManager_OnInteractionAction;
@@ -17,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void InputManager_OnInteractionAction(object sender, EventArgs e)
     {
-        Vector2 vector = inputManager.GetMovementVector();
+        Vector2 vector = inputManager.GetMovementVector(); 
 
         Vector3 moveDir = new Vector3(vector.x, 0f, vector.y);
 
@@ -29,12 +33,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, maxDistance, counterLayerMask))
-        {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
-            {
+            if (raycastHit.transform.TryGetComponent(out Counter clearCounter))
                 clearCounter.Interact();
-            }
-        }
     }
 
     void Update()
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    // Cannot move in any direction
+                    // Cannot move in any directionVector2 vector = inputManager.GetMovementVector(); 
                 }
             }
         }
